@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#reference https://www.fastoe.com/blog/install-rtl8812bu-usb-wifi-dongle-on-linux for install and configuration options
+
 sudo apt update &&
 sudo apt -y install dkms git bc &&
 git clone https://github.com/fastoe/RTL8812BU.git &&

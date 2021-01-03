@@ -1,0 +1,20 @@
+#!/bin/bash
+
+sudo apt update &&
+sudo apt -y install dkms git bc &&
+git clone https://github.com/fastoe/RTL8812BU.git &&
+cd RTL8812BU &&
+VER=$(sed -n 's/\PACKAGE_VERSION="\(.*\)"/\1/p' dkms.conf) &&
+sudo rsync -rvhP ./ /usr/src/rtl88x2bu-${VER} &&
+sudo dkms add -m rtl88x2bu -v ${VER} &&
+sudo dkms build -m rtl88x2bu -v ${VER} &&
+sudo dkms install -m rtl88x2bu -v ${VER} &&
+sudo modprobe 88x2bu &&
+while true; do
+  read -p "Restart is required, would you like to restart now?" yn
+  case $yn in
+    [Yy]* ) sudo reboot; break;;
+    [Nn]* ) exit;;
+    * ) "Y or y for yes, N or n for no";;
+  esac
+done
